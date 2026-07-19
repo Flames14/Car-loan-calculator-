@@ -1,0 +1,308 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysia Auto Hub | Calculator & Comparison</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        proton: '#0033A0',
+                        perodua: '#009A44',
+                        primary: '#0F172A',
+                        accent: '#3B82F6'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #f8fafc;
+            -webkit-font-smoothing: antialiased;
+        }
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+        .tab-active {
+            border-bottom: 3px solid #3B82F6;
+            color: #3B82F6;
+            font-weight: 700;
+        }
+        .tab-inactive {
+            color: #64748B;
+            border-bottom: 3px solid transparent;
+        }
+        .tab-inactive:hover {
+            color: #334155;
+            border-bottom: 3px solid #CBD5E1;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="text-slate-800 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <nav class="bg-white shadow-sm border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <div class="bg-primary text-white p-2 rounded-lg">
+                    <i data-lucide="car-front" class="w-6 h-6"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-primary">AutoHub <span class="text-accent">MY</span></span>
+            </div>
+            <div class="hidden sm:flex gap-4 text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i> Updated 4-Cylinder Specs</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- App Tabs -->
+    <div class="bg-white border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex gap-8">
+            <button onclick="switchTab('calculator')" id="tab-calculator" class="tab-active py-4 px-2 flex items-center gap-2 transition-all outline-none">
+                <i data-lucide="calculator" class="w-5 h-5"></i> Loan Calculator
+            </button>
+            <button onclick="switchTab('compare')" id="tab-compare" class="tab-inactive py-4 px-2 flex items-center gap-2 transition-all outline-none">
+                <i data-lucide="scale" class="w-5 h-5"></i> Compare Models
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        
+        <!-- ==================== CALCULATOR SECTION ==================== -->
+        <div id="section-calculator" class="block">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Smart Loan Calculator</h1>
+                <p class="text-slate-500 max-w-2xl mx-auto text-base">Select the latest 2026 models to estimate your monthly commitments and view detailed pros & cons.</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
+                <!-- Left Column: Inputs -->
+                <div class="lg:col-span-5 space-y-6">
+                    <!-- Vehicle Selection -->
+                    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-6 border border-slate-100">
+                        <div class="space-y-5">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Brand</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <button onclick="selectBrand('Proton', 'calc')" id="calc-btn-brand-Proton" class="border-2 border-slate-200 rounded-xl py-3 text-center font-bold text-slate-600 transition-all hover:bg-slate-50 focus:outline-none">PROTON</button>
+                                    <button onclick="selectBrand('Perodua', 'calc')" id="calc-btn-brand-Perodua" class="border-2 border-slate-200 rounded-xl py-3 text-center font-bold text-slate-600 transition-all hover:bg-slate-50 focus:outline-none">PERODUA</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Model</label>
+                                <select id="calc-modelSelect" onchange="updateVariants('calc')" class="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent transition-all disabled:opacity-50">
+                                    <option value="" disabled selected>Select Brand First</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Variant</label>
+                                <select id="calc-variantSelect" onchange="handleVariantChange()" class="w-full bg-slate-50 border border-slate-300 text-slate-900 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-accent transition-all disabled:opacity-50">
+                                    <option value="" disabled selected>Select Model First</option>
+                                </select>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 flex justify-between items-center">
+                                <span class="text-sm font-medium text-slate-500">OTR Price (Without Ins.)</span>
+                                <span id="priceDisplay" class="text-xl font-bold text-slate-900">RM 0.00</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Loan Details -->
+                    <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-6 border border-slate-100">
+                        <div class="space-y-6">
+                            <div>
+                                <div class="flex justify-between items-center mb-2">
+                                    <label class="block text-sm font-semibold text-slate-700">Down Payment</label>
+                                    <span id="dpAmountDisplay" class="text-sm font-bold text-accent">RM 0.00</span>
+                                </div>
+                                <div class="grid grid-cols-3 gap-2 mb-3">
+                                    <button onclick="setDpType('0')" id="btn-dp-0" class="dp-btn border-2 border-slate-200 rounded-lg py-2 text-sm font-bold text-slate-600 transition-all focus:outline-none">0%</button>
+                                    <button onclick="setDpType('10')" id="btn-dp-10" class="dp-btn ring-2 ring-accent border-accent text-accent rounded-lg py-2 text-sm font-bold transition-all focus:outline-none">10%</button>
+                                    <button onclick="setDpType('custom')" id="btn-dp-custom" class="dp-btn border-2 border-slate-200 rounded-lg py-2 text-sm font-bold text-slate-600 transition-all focus:outline-none">Custom</button>
+                                </div>
+                                <div id="customDpContainer" class="hidden relative">
+                                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center text-slate-500 font-medium">RM</span>
+                                    <input type="number" id="customDpInput" oninput="calculateLoan()" placeholder="Amount" class="w-full bg-slate-50 border border-slate-300 rounded-xl pl-12 pr-4 py-3 focus:ring-2 focus:ring-accent transition-all">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Years</label>
+                                    <select id="yearsSelect" onchange="calculateLoan()" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-accent">
+                                        <option value="9" selected>9 Years</option>
+                                        <option value="8">8 Years</option>
+                                        <option value="7">7 Years</option>
+                                        <option value="5">5 Years</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Interest (%)</label>
+                                    <input type="number" step="0.01" id="interestRateInput" oninput="calculateLoan()" value="2.8" class="w-full bg-slate-50 border border-slate-300 rounded-xl px-4 py-3 focus:ring-2 focus:ring-accent">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Results & Specs -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- Result Card -->
+                    <div class="bg-primary text-white rounded-2xl shadow-2xl p-8 relative overflow-hidden">
+                        <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-5 blur-3xl pointer-events-none"></div>
+                        <h2 class="text-slate-300 text-sm font-semibold uppercase tracking-wider mb-1">Monthly Installment</h2>
+                        <div class="flex items-baseline gap-2 mb-6">
+                            <span class="text-5xl font-extrabold" id="monthlyResult">RM 0.00</span>
+                            <span class="text-slate-400 font-medium">/ mo</span>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 border-t border-slate-700 pt-5">
+                            <div>
+                                <p class="text-slate-400 text-xs mb-1">Total Loan Amount</p>
+                                <p class="text-lg font-bold" id="totalLoanResult">RM 0.00</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-400 text-xs mb-1">Total Interest</p>
+                                <p class="text-lg font-bold" id="totalInterestResult">RM 0.00</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Specs Card with Pros & Cons -->
+                    <div id="specsContainer" class="bg-white rounded-2xl shadow-xl shadow-slate-200/50 p-6 sm:p-8 border border-slate-100 hidden">
+                        <div class="flex justify-between items-center mb-5 pb-4 border-b">
+                            <h2 class="text-lg font-bold flex items-center gap-2"><i data-lucide="info" class="w-5 h-5 text-accent"></i> Specifications</h2>
+                            <span id="specBrandModel" class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide"></span>
+                        </div>
+
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
+                                <span class="block text-xs text-slate-500 mb-1">Engine/Motor</span>
+                                <span id="specEngine" class="font-bold text-sm text-slate-800"></span>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
+                                <span class="block text-xs text-slate-500 mb-1">Torque</span>
+                                <span id="specTorque" class="font-bold text-sm text-slate-800"></span>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center col-span-2 sm:col-span-1">
+                                <span class="block text-xs text-slate-500 mb-1">Transmission</span>
+                                <span id="specTrans" class="font-bold text-sm text-slate-800"></span>
+                            </div>
+                        </div>
+
+                        <!-- Pros and Cons -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
+                            <div>
+                                <h3 class="flex items-center gap-2 text-sm font-bold text-green-600 mb-3">
+                                    <i data-lucide="check-circle" class="w-4 h-4"></i> Pros
+                                </h3>
+                                <ul id="specPros" class="space-y-2 text-sm text-slate-600"></ul>
+                            </div>
+                            <div>
+                                <h3 class="flex items-center gap-2 text-sm font-bold text-red-500 mb-3">
+                                    <i data-lucide="x-circle" class="w-4 h-4"></i> Cons
+                                </h3>
+                                <ul id="specCons" class="space-y-2 text-sm text-slate-600"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="specsEmptyState" class="bg-white rounded-2xl shadow-sm border border-slate-200 border-dashed p-10 flex flex-col items-center text-center">
+                        <i data-lucide="mouse-pointer-click" class="w-12 h-12 text-slate-300 mb-3"></i>
+                        <h3 class="text-slate-600 font-bold">No Vehicle Selected</h3>
+                        <p class="text-slate-400 text-sm mt-1">Select a car to view specs, pros, and cons.</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== COMPARE SECTION ==================== -->
+        <div id="section-compare" class="hidden">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Side-by-Side Comparison</h1>
+                <p class="text-slate-500 max-w-2xl mx-auto text-base">Compare prices, specifications, and true pros/cons to make an informed decision.</p>
+            </div>
+
+            <!-- Selectors -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                
+                <!-- Car 1 Selector -->
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2"><i data-lucide="car" class="w-4 h-4 text-accent"></i> Vehicle 1</h3>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="selectBrand('Proton', 'comp1')" id="comp1-btn-brand-Proton" class="border rounded-lg py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">Proton</button>
+                            <button onclick="selectBrand('Perodua', 'comp1')" id="comp1-btn-brand-Perodua" class="border rounded-lg py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">Perodua</button>
+                        </div>
+                        <select id="comp1-modelSelect" onchange="updateVariants('comp1')" class="w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2 disabled:opacity-50">
+                            <option value="" disabled selected>Model</option>
+                        </select>
+                        <select id="comp1-variantSelect" onchange="renderComparison()" class="w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2 disabled:opacity-50">
+                            <option value="" disabled selected>Variant</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Car 2 Selector -->
+                <div class="bg-white p-5 rounded-2xl shadow-md border border-slate-200">
+                    <h3 class="font-bold text-slate-800 mb-4 flex items-center gap-2 border-b pb-2"><i data-lucide="car" class="w-4 h-4 text-accent"></i> Vehicle 2</h3>
+                    <div class="space-y-3">
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="selectBrand('Proton', 'comp2')" id="comp2-btn-brand-Proton" class="border rounded-lg py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">Proton</button>
+                            <button onclick="selectBrand('Perodua', 'comp2')" id="comp2-btn-brand-Perodua" class="border rounded-lg py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all">Perodua</button>
+                        </div>
+                        <select id="comp2-modelSelect" onchange="updateVariants('comp2')" class="w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2 disabled:opacity-50">
+                            <option value="" disabled selected>Model</option>
+                        </select>
+                        <select id="comp2-variantSelect" onchange="renderComparison()" class="w-full bg-slate-50 border border-slate-300 text-sm rounded-lg px-3 py-2 disabled:opacity-50">
+                            <option value="" disabled selected>Variant</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Comparison Table / Cards -->
+            <div id="comparisonResultContainer" class="hidden grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1 Built by JS -->
+                <div id="compareCard1" class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden"></div>
+                <!-- Card 2 Built by JS -->
+                <div id="compareCard2" class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden"></div>
+            </div>
+
+            <div id="compareEmptyState" class="bg-white rounded-2xl shadow-sm border border-slate-200 border-dashed p-12 flex flex-col items-center text-center">
+                <i data-lucide="arrow-left-right" class="w-16 h-16 text-slate-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-slate-700">Select Two Vehicles to Compare</h3>
+                <p class="text-slate-500 mt-2 max-w-md">Choose the brands, models, and variants above to generate a side-by-side analysis of specs, pricing, and pros/cons.</p>
+            </div>
+        </div>
+
+    </main>
+
+    <footer class="bg-white 
