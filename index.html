@@ -305,4 +305,421 @@
 
     </main>
 
-    <footer class="bg-white 
+    <footer class="bg-white border-t border-slate-200 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
+            <p class="text-sm text-slate-500 font-medium">&copy; 2026 AutoHub MY. Educational demonstration.</p>
+            <p class="text-xs text-slate-400 mt-2 sm:mt-0">Reflecting mid-2026 4-Cylinder Automotive Specs.</p>
+        </div>
+    </footer>
+
+    <!-- Application Logic -->
+    <script>
+        lucide.createIcons();
+
+        // --- Corrected 2026 Data Source (4-Cylinder Engines Across Proton Lineup) ---
+        const carData = {
+            "Proton": {
+                "Saga": {
+                    // Corrected to 1.5L NA 4-Cyl
+                    specs: { Engine: "1.5L 4-Cyl Naturally Aspirated (114 PS)", Torque: "147 Nm", Transmission: "4-Speed AT / D-CVT", Type: "A-Segment Sedan", Features: "Upgraded Infotainment, Improved NVH" },
+                    pros: ["Newer 1.5L 4-Cyl engine provides much better highway performance", "Smooth and durable gearbox", "Excellent ride and handling for its class"],
+                    cons: ["Design language is still aging", "Fuel consumption could be better", "Basic active safety features on lower trims"],
+                    variants: [
+                        { name: "1.5 Standard AT", price: 39800 },
+                        { name: "1.5 Premium AT", price: 42800 },
+                        { name: "1.5 Premium S AT", price: 45800 }
+                    ]
+                },
+                "S70": {
+                    // Corrected to 1.5L Turbo 4-Cyl (BHE15)
+                    specs: { Engine: "1.5L Turbo 4-Cyl (150-181 PS)", Torque: "290 Nm", Transmission: "7-Speed Wet DCT", Type: "C-Segment Sedan", Features: "ADAS Level 2, 12.3-inch Infotainment, Sunroof (Flagship X)" },
+                    pros: ["New 4-cylinder turbo eliminates previous 3-cylinder vibrations", "Massive improvement in low-end torque", "Premium chassis tuning and cabin comfort"],
+                    cons: ["No Apple CarPlay / Android Auto out of the box", "No physical manual climate control knobs", "Cabin width leans towards B-segment styling"],
+                    variants: [
+                        { name: "1.5T 4-Cyl Executive", price: 73800 },
+                        { name: "1.5T 4-Cyl Premium", price: 79800 },
+                        { name: "1.5T 4-Cyl Flagship", price: 89800 },
+                        { name: "1.5T 4-Cyl Flagship X", price: 94800 }
+                    ]
+                },
+                "X50": {
+                    // Corrected to 1.5L Turbo 4-Cyl
+                    specs: { Engine: "1.5L Turbo 4-Cyl (181 PS)", Torque: "290 Nm", Transmission: "7-Speed Wet DCT", Type: "B-Segment SUV", Features: "NVH Improvements, 10.25-inch Screen, Auto Park Assist" },
+                    pros: ["Smooth 4-cylinder engine transforms the driving experience", "Sporty design and strong performance", "Great tech and ADAS features"],
+                    cons: ["Boot space is relatively small (330L)", "Infotainment lacks native Apple CarPlay/Android Auto", "Firmer ride over rough city roads"],
+                    variants: [
+                        { name: "1.5T 4-Cyl Standard", price: 86300 },
+                        { name: "1.5T 4-Cyl Executive", price: 93300 },
+                        { name: "1.5T 4-Cyl Premium", price: 101800 },
+                        { name: "1.5T 4-Cyl Flagship", price: 113300 }
+                    ]
+                },
+                "X70": {
+                    // Corrected to 1.5L Turbo 4-Cyl
+                    specs: { Engine: "1.5L Turbo 4-Cyl TGDi (181 PS)", Torque: "290 Nm", Transmission: "7-Speed Wet DCT", Type: "C-Segment SUV", Features: "Level 2 ADAS, Nappa Leather, Ambient Lighting" },
+                    pros: ["4-cylinder engine runs noticeably quieter and smoother", "Extremely comfortable and refined ride", "Apple CarPlay & Android Auto supported"],
+                    cons: ["Heavy curb weight still affects fuel economy", "Suspension leans heavily towards comfort, not sporty", "Interior layout feels slightly dated compared to rivals"],
+                    variants: [
+                        { name: "1.5T 4-Cyl Standard", price: 98800 },
+                        { name: "1.5T 4-Cyl Executive", price: 110800 },
+                        { name: "1.5T 4-Cyl Premium", price: 123800 },
+                        { name: "1.5T 4-Cyl Premium X", price: 126800 }
+                    ]
+                },
+                "X90": {
+                    // Corrected to 1.5L Turbo 4-Cyl Hybrid
+                    specs: { Engine: "1.5L Turbo 4-Cyl BSG Hybrid (190 PS)", Torque: "300+ Nm", Transmission: "7-Speed Wet DCT", Type: "D-Segment SUV (6/7-Seater)", Features: "Mild Hybrid System, Captain Seats, Auto Park" },
+                    pros: ["4-cylinder hybrid setup delivers excellent power delivery", "Spacious true 3-row seating", "Multi-link rear suspension offers great stability"],
+                    cons: ["Mild hybrid only; pure EV driving not possible", "Large footprint makes tight parking difficult", "Interior styling is slightly conservative"],
+                    variants: [
+                        { name: "1.5T 4-Cyl BSG Standard", price: 123800 },
+                        { name: "1.5T 4-Cyl BSG Executive", price: 130800 },
+                        { name: "1.5T 4-Cyl BSG Premium", price: 144800 },
+                        { name: "1.5T 4-Cyl BSG Flagship (6-Seater)", price: 152800 }
+                    ]
+                },
+                "e.MAS 7 (EV)": {
+                    specs: { Engine: "Single Motor RWD (218 PS)", Torque: "320 Nm", Transmission: "Single-Speed", Type: "C-Segment Electric SUV", Features: "Aegis Short Blade Battery, Flyme Auto, 410km WLTP" },
+                    pros: ["Zero emissions and low running costs", "Geely's advanced and safe Aegis battery tech", "Incredibly spacious interior with flat floor"],
+                    cons: ["Requires home charger for best experience", "Public charging network still growing", "Higher initial purchase price than ICE rivals"],
+                    variants: [
+                        { name: "e.MAS 7 Prime (49.52 kWh)", price: 120000 },
+                        { name: "e.MAS 7 Premium (60.22 kWh)", price: 135000 }
+                    ]
+                }
+            },
+            "Perodua": {
+                "Axia": {
+                    specs: { Engine: "1.0L VVT-i (67 hp)", Torque: "91 Nm", Transmission: "5MT / D-CVT", Type: "A-Segment Hatchback", Features: "Digital Meter, Keyless Entry, Perodua Smart Drive Assist" },
+                    pros: ["Incredible fuel efficiency (up to 27km/l)", "D-CVT gearbox is smooth and responsive", "Spacious cabin for its compact footprint"],
+                    cons: ["1.0L engine struggles on steep highway inclines", "NVH (Noise, Vibration, Harshness) is noticeable", "No telescopic steering adjustment"],
+                    variants: [
+                        { name: "1.0 E Manual (Rahmah)", price: 22000 },
+                        { name: "1.0 G D-CVT", price: 38600 },
+                        { name: "1.0 X D-CVT", price: 40000 },
+                        { name: "1.0 SE D-CVT", price: 44000 },
+                        { name: "1.0 AV D-CVT", price: 49500 }
+                    ]
+                },
+                "Bezza": {
+                    specs: { Engine: "1.0L / 1.3L VVT-i (67-94 hp)", Torque: "91-121 Nm", Transmission: "4AT / 5MT", Type: "A-Segment Sedan", Features: "508L Boot Space, ASA 2.0 (AV), Push Start" },
+                    pros: ["Massive 508-liter boot space", "Extremely reliable and low maintenance cost", "Great fuel economy for daily city driving"],
+                    cons: ["Ride quality can be bouncy", "Driving position is awkward for tall drivers", "Older 4AT gearbox feels sluggish compared to D-CVT"],
+                    variants: [
+                        { name: "1.0 G Manual", price: 34580 },
+                        { name: "1.0 G Auto", price: 36580 },
+                        { name: "1.3 X Auto", price: 43980 },
+                        { name: "1.3 AV Auto", price: 49980 }
+                    ]
+                },
+                "Myvi": {
+                    specs: { Engine: "1.3L / 1.5L Dual VVT-i (102 hp)", Torque: "136 Nm", Transmission: "D-CVT", Type: "B-Segment Hatchback", Features: "PSDA, Adaptive Cruise Control, Auto High Beam" },
+                    pros: ["Malaysia's best-selling car; highly dependable", "Fantastic safety tech (PSDA & ACC) for the price", "Punchy 1.5L engine paired with D-CVT"],
+                    cons: ["Suspension is firm, impacting rear comfort", "Road and wind noise at highway speeds", "Seats could use better thigh support"],
+                    variants: [
+                        { name: "1.3 G D-CVT (w/o PSDA)", price: 46500 },
+                        { name: "1.3 G D-CVT (w/ PSDA)", price: 48500 },
+                        { name: "1.5 X D-CVT", price: 50900 },
+                        { name: "1.5 H D-CVT", price: 54900 },
+                        { name: "1.5 AV D-CVT", price: 59900 }
+                    ]
+                },
+                "Ativa": {
+                    specs: { Engine: "1.0L Turbo (97 hp)", Torque: "140 Nm", Transmission: "D-CVT", Type: "Compact SUV", Features: "Adaptive Matrix LED, PSDA Advanced, Digital Cluster" },
+                    pros: ["Punchy turbo engine provides good low-end torque", "High seating position and good visibility", "Excellent safety features (Adaptive Matrix Headlights)"],
+                    cons: ["Boot space is limited (303L)", "3-cylinder engine vibrates noticeably at idle", "Rear seat space is a bit cramped for adults"],
+                    variants: [
+                        { name: "1.0 X D-CVT", price: 62500 },
+                        { name: "1.0 H D-CVT", price: 67080 },
+                        { name: "1.0 AV D-CVT", price: 72380 }
+                    ]
+                },
+                "Alza": {
+                    specs: { Engine: "1.5L Dual VVT-i (105 hp)", Torque: "138 Nm", Transmission: "D-CVT", Type: "B-Segment MPV (7-Seater)", Features: "EPB with Auto Hold, 360 Camera, Rear AC" },
+                    pros: ["Incredible value for a 7-seater MPV", "Very car-like driving dynamics (DNGA platform)", "EPB, 360-cam, and rear AC make it highly practical"],
+                    cons: ["Low ground clearance (160mm) for an MPV", "Third row is strict for kids or short journeys", "Engine feels strained with 7 adults and luggage"],
+                    variants: [
+                        { name: "1.5 X D-CVT", price: 62500 },
+                        { name: "1.5 H D-CVT", price: 68000 },
+                        { name: "1.5 AV D-CVT", price: 75500 }
+                    ]
+                },
+                "Nexis (D66B)": {
+                    specs: { Engine: "1.5L Dual VVT-i / 1.5L Hybrid", Torque: "138 Nm / 170 Nm", Transmission: "D-CVT", Type: "B-Segment SUV", Features: "DNGA Platform, Power Tailgate, Advanced PSDA" },
+                    pros: ["Direct competitor to HR-V/Corolla Cross at lower price", "Available highly efficient Hybrid powertrain", "Modern styling and premium feature set"],
+                    cons: ["Expect extremely long waiting lists", "Hybrid variant commands a significant price premium", "Cabin materials still lean towards hard plastics"],
+                    variants: [
+                        { name: "1.5 X D-CVT", price: 73000 },
+                        { name: "1.5 H D-CVT", price: 78000 },
+                        { name: "1.5 AV D-CVT (Hybrid)", price: 85000 }
+                    ]
+                }
+            }
+        };
+
+        const MYR = new Intl.NumberFormat('en-MY', { style: 'currency', currency: 'MYR', minimumFractionDigits: 0 });
+
+        // --- State ---
+        let calcState = { brand: null, model: null, variantPrice: 0, dpType: '10' };
+        let comp1State = { brand: null, model: null, variantIndex: null };
+        let comp2State = { brand: null, model: null, variantIndex: null };
+
+        // --- Tab Logic ---
+        function switchTab(tab) {
+            document.getElementById('section-calculator').classList.add('hidden');
+            document.getElementById('section-compare').classList.add('hidden');
+            
+            document.getElementById('tab-calculator').className = "tab-inactive py-4 px-2 flex items-center gap-2 transition-all outline-none";
+            document.getElementById('tab-compare').className = "tab-inactive py-4 px-2 flex items-center gap-2 transition-all outline-none";
+
+            document.getElementById(`section-${tab}`).classList.remove('hidden');
+            document.getElementById(`tab-${tab}`).className = "tab-active py-4 px-2 flex items-center gap-2 transition-all outline-none";
+        }
+
+        // --- Shared Selection Logic ---
+        function selectBrand(brand, context) {
+            let btnProton = document.getElementById(`${context}-btn-brand-Proton`);
+            let btnPerodua = document.getElementById(`${context}-btn-brand-Perodua`);
+            
+            btnProton.className = "border rounded-lg py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all";
+            btnPerodua.className = "border rounded-lg py-2 text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all";
+
+            const activeBtn = document.getElementById(`${context}-btn-brand-${brand}`);
+            if(brand === 'Proton') {
+                activeBtn.className = "border rounded-lg py-2 text-sm font-bold transition-all bg-blue-50 border-proton text-proton";
+            } else {
+                activeBtn.className = "border rounded-lg py-2 text-sm font-bold transition-all bg-green-50 border-perodua text-perodua";
+            }
+
+            const modelSelect = document.getElementById(`${context}-modelSelect`);
+            modelSelect.innerHTML = '<option value="" disabled selected>Select Model</option>';
+            modelSelect.disabled = false;
+            
+            const models = Object.keys(carData[brand]);
+            models.forEach(model => {
+                let opt = document.createElement('option');
+                opt.value = model;
+                opt.innerHTML = model;
+                modelSelect.appendChild(opt);
+            });
+
+            const variantSelect = document.getElementById(`${context}-variantSelect`);
+            variantSelect.innerHTML = '<option value="" disabled selected>Select Model First</option>';
+            variantSelect.disabled = true;
+
+            // Update State
+            if(context === 'calc') {
+                calcState.brand = brand;
+                calcState.model = null;
+                calcState.variantPrice = 0;
+                document.getElementById('priceDisplay').innerText = "RM 0.00";
+                resetCalcResults();
+            } else if (context === 'comp1') {
+                comp1State.brand = brand;
+                comp1State.model = null;
+                comp1State.variantIndex = null;
+                renderComparison();
+            } else if (context === 'comp2') {
+                comp2State.brand = brand;
+                comp2State.model = null;
+                comp2State.variantIndex = null;
+                renderComparison();
+            }
+        }
+
+        function updateVariants(context) {
+            const modelSelect = document.getElementById(`${context}-modelSelect`);
+            const selectedModel = modelSelect.value;
+            const brand = (context === 'calc') ? calcState.brand : (context === 'comp1' ? comp1State.brand : comp2State.brand);
+
+            const variantSelect = document.getElementById(`${context}-variantSelect`);
+            variantSelect.innerHTML = '<option value="" disabled selected>Select Variant</option>';
+            variantSelect.disabled = false;
+
+            const variants = carData[brand][selectedModel].variants;
+            variants.forEach((variant, index) => {
+                let opt = document.createElement('option');
+                opt.value = index; 
+                opt.innerHTML = `${variant.name} (${MYR.format(variant.price)})`;
+                variantSelect.appendChild(opt);
+            });
+
+            if(context === 'calc') {
+                calcState.model = selectedModel;
+                calcState.variantPrice = 0;
+                document.getElementById('priceDisplay').innerText = "RM 0.00";
+                resetCalcResults();
+            } else {
+                if(context === 'comp1') comp1State.model = selectedModel;
+                if(context === 'comp2') comp2State.model = selectedModel;
+                renderComparison();
+            }
+        }
+
+        // --- Calculator Logic ---
+        function handleVariantChange() {
+            const variantIndex = document.getElementById('calc-variantSelect').value;
+            const variant = carData[calcState.brand][calcState.model].variants[variantIndex];
+            
+            calcState.variantPrice = variant.price;
+            document.getElementById('priceDisplay').innerText = MYR.format(variant.price);
+            
+            // Populate Specs
+            const car = carData[calcState.brand][calcState.model];
+            document.getElementById('specBrandModel').innerText = `${calcState.brand} ${calcState.model}`;
+            document.getElementById('specEngine').innerText = car.specs.Engine;
+            document.getElementById('specTorque').innerText = car.specs.Torque;
+            document.getElementById('specTrans').innerText = car.specs.Transmission;
+            
+            // Populate Pros/Cons
+            const prosList = document.getElementById('specPros');
+            const consList = document.getElementById('specCons');
+            prosList.innerHTML = car.pros.map(p => `<li>• ${p}</li>`).join('');
+            consList.innerHTML = car.cons.map(c => `<li>• ${c}</li>`).join('');
+
+            document.getElementById('specsEmptyState').classList.add('hidden');
+            document.getElementById('specsContainer').classList.remove('hidden');
+
+            calculateLoan();
+        }
+
+        function setDpType(type) {
+            calcState.dpType = type;
+            document.querySelectorAll('.dp-btn').forEach(btn => {
+                btn.className = "dp-btn border-2 border-slate-200 rounded-lg py-2 text-sm font-bold text-slate-600 transition-all focus:outline-none";
+            });
+            
+            const activeBtn = document.getElementById(`btn-dp-${type}`);
+            activeBtn.classList.add('ring-2', 'ring-accent', 'border-accent', 'text-accent');
+            
+            const customInput = document.getElementById('customDpContainer');
+            if(type === 'custom') {
+                customInput.classList.remove('hidden');
+                document.getElementById('customDpInput').value = (calcState.variantPrice * 0.1).toFixed(0);
+            } else {
+                customInput.classList.add('hidden');
+            }
+            calculateLoan();
+        }
+
+        function calculateLoan() {
+            if (calcState.variantPrice === 0) return;
+
+            let downPayment = 0;
+            if (calcState.dpType === '0') downPayment = 0;
+            else if (calcState.dpType === '10') downPayment = calcState.variantPrice * 0.10;
+            else if (calcState.dpType === 'custom') {
+                downPayment = parseFloat(document.getElementById('customDpInput').value) || 0;
+                if(downPayment > calcState.variantPrice) downPayment = calcState.variantPrice;
+            }
+
+            document.getElementById('dpAmountDisplay').innerText = MYR.format(downPayment);
+
+            const principal = calcState.variantPrice - downPayment;
+            const years = parseInt(document.getElementById('yearsSelect').value);
+            const interestRate = parseFloat(document.getElementById('interestRateInput').value) || 0;
+            
+            const totalInterest = principal * (interestRate / 100) * years;
+            const totalLoan = principal + totalInterest;
+            const monthlyPayment = totalLoan / (years * 12);
+
+            document.getElementById('monthlyResult').innerText = MYR.format(monthlyPayment);
+            document.getElementById('totalLoanResult').innerText = MYR.format(totalLoan);
+            document.getElementById('totalInterestResult').innerText = MYR.format(totalInterest);
+        }
+
+        function resetCalcResults() {
+            document.getElementById('dpAmountDisplay').innerText = "RM 0.00";
+            document.getElementById('monthlyResult').innerText = "RM 0.00";
+            document.getElementById('totalLoanResult').innerText = "RM 0.00";
+            document.getElementById('totalInterestResult').innerText = "RM 0.00";
+            document.getElementById('specsEmptyState').classList.remove('hidden');
+            document.getElementById('specsContainer').classList.add('hidden');
+        }
+
+        // --- Compare Logic ---
+        function generateCompareCard(brand, model, variantIndex) {
+            const car = carData[brand][model];
+            const variant = car.variants[variantIndex];
+            
+            // Standard comparison assumed rates
+            const principal = variant.price * 0.9;
+            const totalInterest = principal * (2.8 / 100) * 9;
+            const monthly = (principal + totalInterest) / (9 * 12);
+
+            let prosHtml = car.pros.map(p => `<li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i> <span>${p}</span></li>`).join('');
+            let consHtml = car.cons.map(c => `<li class="flex gap-2 items-start"><i data-lucide="x" class="w-4 h-4 text-red-500 shrink-0 mt-0.5"></i> <span>${c}</span></li>`).join('');
+
+            return `
+                <div class="bg-primary text-white p-6 text-center">
+                    <span class="text-accent text-xs font-bold uppercase tracking-wider">${brand}</span>
+                    <h3 class="text-2xl font-bold mt-1">${model}</h3>
+                    <p class="text-slate-400 text-sm mt-1 truncate">${variant.name}</p>
+                    <div class="text-3xl font-extrabold mt-4">${MYR.format(variant.price)}</div>
+                    <p class="text-sm text-slate-400 mt-1">~${MYR.format(monthly)} / mo (9 Yrs, 10% DP)</p>
+                </div>
+                <div class="p-6 space-y-4">
+                    <div class="flex justify-between border-b pb-2 border-slate-100">
+                        <span class="text-slate-500 text-sm">Engine</span>
+                        <span class="font-semibold text-sm text-right w-1/2">${car.specs.Engine}</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 border-slate-100">
+                        <span class="text-slate-500 text-sm">Torque</span>
+                        <span class="font-semibold text-sm">${car.specs.Torque}</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 border-slate-100">
+                        <span class="text-slate-500 text-sm">Trans</span>
+                        <span class="font-semibold text-sm">${car.specs.Transmission}</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 border-slate-100">
+                        <span class="text-slate-500 text-sm">Type</span>
+                        <span class="font-semibold text-sm text-right w-1/2">${car.specs.Type}</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 border-slate-100">
+                        <span class="text-slate-500 text-sm">Features</span>
+                        <span class="font-semibold text-sm text-right w-1/2">${car.specs.Features}</span>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <h4 class="font-bold text-slate-800 text-sm mb-3">Pros</h4>
+                        <ul class="space-y-2 text-sm text-slate-600">${prosHtml}</ul>
+                    </div>
+                    <div class="pt-4">
+                        <h4 class="font-bold text-slate-800 text-sm mb-3">Cons</h4>
+                        <ul class="space-y-2 text-sm text-slate-600">${consHtml}</ul>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderComparison() {
+            comp1State.variantIndex = document.getElementById('comp1-variantSelect').value;
+            comp2State.variantIndex = document.getElementById('comp2-variantSelect').value;
+
+            const container = document.getElementById('comparisonResultContainer');
+            const emptyState = document.getElementById('compareEmptyState');
+            const card1 = document.getElementById('compareCard1');
+            const card2 = document.getElementById('compareCard2');
+
+            if(comp1State.brand && comp1State.model && comp1State.variantIndex && 
+               comp2State.brand && comp2State.model && comp2State.variantIndex) {
+                
+                emptyState.classList.add('hidden');
+                container.classList.remove('hidden');
+                container.classList.add('grid');
+
+                card1.innerHTML = generateCompareCard(comp1State.brand, comp1State.model, comp1State.variantIndex);
+                card2.innerHTML = generateCompareCard(comp2State.brand, comp2State.model, comp2State.variantIndex);
+                lucide.createIcons();
+            } else {
+                emptyState.classList.remove('hidden');
+                container.classList.add('hidden');
+                container.classList.remove('grid');
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+```
