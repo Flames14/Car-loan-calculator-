@@ -74,7 +74,7 @@
                 <span class="font-bold text-xl tracking-tight text-primary">AutoHub <span class="text-accent">MY</span></span>
             </div>
             <div class="hidden sm:flex gap-4 text-sm font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
-                <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i> Updated 4-Cylinder Specs</span>
+                <span class="flex items-center gap-1"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i> Mid-2026 OTR Prices & Specs</span>
             </div>
         </div>
     </nav>
@@ -98,7 +98,7 @@
         <div id="section-calculator" class="block">
             <div class="text-center mb-8">
                 <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3 tracking-tight">Smart Loan Calculator</h1>
-                <p class="text-slate-500 max-w-2xl mx-auto text-base">Select the latest 2026 models to estimate your monthly commitments and view detailed pros & cons.</p>
+                <p class="text-slate-500 max-w-2xl mx-auto text-base">Select current Proton & Perodua models to estimate monthly commitments and view verified specs, cargo load, and pros & cons.</p>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -201,7 +201,10 @@
                             <span id="specBrandModel" class="bg-slate-100 text-slate-700 px-3 py-1 rounded-full text-xs font-bold tracking-wide"></span>
                         </div>
 
-                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                        <div id="specImageWrap" class="mb-5 rounded-xl overflow-hidden bg-slate-50 border border-slate-100 flex items-center justify-center min-h-[160px]">
+                            <img id="specImage" src="" alt="Vehicle" class="max-h-44 w-auto object-contain p-3" onerror="this.style.display='none'">
+                        </div>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
                             <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
                                 <span class="block text-xs text-slate-500 mb-1">Engine/Motor</span>
                                 <span id="specEngine" class="font-bold text-sm text-slate-800"></span>
@@ -210,9 +213,13 @@
                                 <span class="block text-xs text-slate-500 mb-1">Torque</span>
                                 <span id="specTorque" class="font-bold text-sm text-slate-800"></span>
                             </div>
-                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center col-span-2 sm:col-span-1">
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
                                 <span class="block text-xs text-slate-500 mb-1">Transmission</span>
                                 <span id="specTrans" class="font-bold text-sm text-slate-800"></span>
+                            </div>
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100 text-center">
+                                <span class="block text-xs text-slate-500 mb-1">Boot / Load</span>
+                                <span id="specLoad" class="font-bold text-sm text-slate-800"></span>
                             </div>
                         </div>
 
@@ -308,7 +315,7 @@
     <footer class="bg-white border-t border-slate-200 mt-auto">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row justify-between items-center text-center sm:text-left">
             <p class="text-sm text-slate-500 font-medium">&copy; 2026 AutoHub MY. Educational demonstration.</p>
-            <p class="text-xs text-slate-400 mt-2 sm:mt-0">Reflecting mid-2026 4-Cylinder Automotive Specs.</p>
+            <p class="text-xs text-slate-400 mt-2 sm:mt-0">OTR prices without insurance (Peninsular MY). Specs verified mid-2026.</p>
         </div>
     </footer>
 
@@ -316,83 +323,209 @@
     <script>
         lucide.createIcons();
 
-        // --- Corrected 2026 Data Source (4-Cylinder Engines Across Proton Lineup) ---
+        // --- Mid-2026 Malaysia OTR prices (without insurance) + verified specs ---
+        // Sources: proton.com, emas.proton.com, perodua.com.my, carbase.my, paultan.org reviews
         const carData = {
             "Proton": {
                 "Saga": {
-                    // Corrected to 1.5L NA 4-Cyl
-                    specs: { Engine: "1.5L 4-Cyl Naturally Aspirated (114 PS)", Torque: "147 Nm", Transmission: "4-Speed AT / D-CVT", Type: "A-Segment Sedan", Features: "Upgraded Infotainment, Improved NVH" },
-                    pros: ["Newer 1.5L 4-Cyl engine provides much better highway performance", "Smooth and durable gearbox", "Excellent ride and handling for its class"],
-                    cons: ["Design language is still aging", "Fuel consumption could be better", "Basic active safety features on lower trims"],
+                    year: "2026 MC3",
+                    image: "https://cms-assets.proton.com/proton-cms-blob/media/yileabdk/model-saga_360x200.png",
+                    specs: {
+                        Engine: "1.5L i-GT 4-Cyl NA (120 PS)",
+                        Torque: "150 Nm",
+                        Transmission: "4AT / CVT (Premium)",
+                        Type: "A-Segment Sedan",
+                        Load: "420 L boot",
+                        Features: "Wireless CarPlay/AA, dual 7\"+9\" screens, LED lamps; Premium adds ADAS + 6 airbags"
+                    },
+                    pros: [
+                        "New 1.5L i-GT (120 PS) is far stronger and smoother than old CamPro / Bezza 1.3",
+                        "Class-leading ride & handling for a sub-RM50k sedan (Paul Tan 4.5/5)",
+                        "Real-world fuel economy near 5.1–5.8 L/100 km on highway",
+                        "Premium gets wireless CarPlay/AA, AEB, BSM and 6 airbags"
+                    ],
+                    cons: [
+                        "Still based on ageing structure — high seating position and limited storage",
+                        "Boot 420 L trails Bezza’s 508 L (weaker for Grab/luggage use)",
+                        "4AT on lower trims is dated; engine buzzes above ~3,000 rpm",
+                        "Hard plastics and screen glare under strong sun"
+                    ],
                     variants: [
-                        { name: "1.5 Standard AT", price: 39800 },
-                        { name: "1.5 Premium AT", price: 42800 },
-                        { name: "1.5 Premium S AT", price: 45800 }
+                        { name: "1.5 Standard AT", price: 38990 },
+                        { name: "1.5 Executive AT", price: 44990 },
+                        { name: "1.5 Premium CVT", price: 49990 }
                     ]
                 },
                 "S70": {
-                    // Corrected to 1.5L Turbo 4-Cyl (BHE15)
-                    specs: { Engine: "1.5L Turbo 4-Cyl (150-181 PS)", Torque: "290 Nm", Transmission: "7-Speed Wet DCT", Type: "C-Segment Sedan", Features: "ADAS Level 2, 12.3-inch Infotainment, Sunroof (Flagship X)" },
-                    pros: ["New 4-cylinder turbo eliminates previous 3-cylinder vibrations", "Massive improvement in low-end torque", "Premium chassis tuning and cabin comfort"],
-                    cons: ["No Apple CarPlay / Android Auto out of the box", "No physical manual climate control knobs", "Cabin width leans towards B-segment styling"],
+                    year: "2025–2026",
+                    image: "https://cms-assets.proton.com/proton-cms-blob/media/pwtfsjvq/model-s70.png",
+                    specs: {
+                        Engine: "1.5L i-GT TD 3-Cyl Turbo (181 PS)",
+                        Torque: "290 Nm",
+                        Transmission: "7-Speed Wet DCT",
+                        Type: "C-Segment Sedan",
+                        Load: "~505 L boot",
+                        Features: "L2 ADAS, 12.3\" infotainment, wireless CarPlay/AA, 360° cam (higher trims), sunroof (Flagship X)"
+                    },
+                    pros: [
+                        "Strong 181 PS / 290 Nm turbo punch at C-segment price",
+                        "Wireless Apple CarPlay & Android Auto now standard on connected trims",
+                        "Sporty looks, good chassis tuning, full L2 ADAS on higher variants",
+                        "Large sedan boot practical for family and long trips"
+                    ],
+                    cons: [
+                        "3-cylinder turbo can feel coarse at idle / low rpm vs 4-cyl rivals",
+                        "Cabin width still closer to upper B-segment than full C-class",
+                        "Climate control is touch-heavy (few physical knobs)",
+                        "Fuel economy drops quickly if driven hard in Sport mode"
+                    ],
                     variants: [
-                        { name: "1.5T 4-Cyl Executive", price: 73800 },
-                        { name: "1.5T 4-Cyl Premium", price: 79800 },
-                        { name: "1.5T 4-Cyl Flagship", price: 89800 },
-                        { name: "1.5T 4-Cyl Flagship X", price: 94800 }
+                        { name: "1.5T Executive", price: 73800 },
+                        { name: "1.5T Premium", price: 79800 },
+                        { name: "1.5T Flagship", price: 89800 },
+                        { name: "1.5T Flagship X", price: 94800 }
                     ]
                 },
                 "X50": {
-                    // Corrected to 1.5L Turbo 4-Cyl
-                    specs: { Engine: "1.5L Turbo 4-Cyl (181 PS)", Torque: "290 Nm", Transmission: "7-Speed Wet DCT", Type: "B-Segment SUV", Features: "NVH Improvements, 10.25-inch Screen, Auto Park Assist" },
-                    pros: ["Smooth 4-cylinder engine transforms the driving experience", "Sporty design and strong performance", "Great tech and ADAS features"],
-                    cons: ["Boot space is relatively small (330L)", "Infotainment lacks native Apple CarPlay/Android Auto", "Firmer ride over rough city roads"],
+                    year: "2025 FL (All-New)",
+                    image: "https://cms-assets.proton.com/proton-cms-blob/media/wxaip352/model-x50-01-copy.png",
+                    specs: {
+                        Engine: "1.5L i-GT TD 3-Cyl Turbo (181 PS)",
+                        Torque: "290 Nm",
+                        Transmission: "7-Speed Wet DCT",
+                        Type: "B-Segment SUV",
+                        Load: "330 L boot",
+                        Features: "14.6\" screen, wireless CarPlay/AA, L2 ADAS, APA, dual-tone options, panoramic sunroof (Flagship)"
+                    },
+                    pros: [
+                        "Facelift adds modern dual-tone design and much larger 14.6\" head unit",
+                        "181 PS / 290 Nm makes it one of the quickest B-SUVs under RM115k",
+                        "Full ADAS suite + auto park on higher trims",
+                        "Wireless CarPlay/Android Auto fixed a major past complaint"
+                    ],
+                    cons: [
+                        "Boot only ~330 L — tight for family luggage or strollers",
+                        "Firmer ride over broken city roads (sport-biased suspension)",
+                        "3-cyl turbo NVH still present at idle vs 4-cyl rivals",
+                        "Rear knee room average for tall adults"
+                    ],
                     variants: [
-                        { name: "1.5T 4-Cyl Standard", price: 86300 },
-                        { name: "1.5T 4-Cyl Executive", price: 93300 },
-                        { name: "1.5T 4-Cyl Premium", price: 101800 },
-                        { name: "1.5T 4-Cyl Flagship", price: 113300 }
+                        { name: "1.5T Executive", price: 89800 },
+                        { name: "1.5T Premium", price: 101800 },
+                        { name: "1.5T Flagship", price: 113300 }
                     ]
                 },
                 "X70": {
-                    // Corrected to 1.5L Turbo 4-Cyl
-                    specs: { Engine: "1.5L Turbo 4-Cyl TGDi (181 PS)", Torque: "290 Nm", Transmission: "7-Speed Wet DCT", Type: "C-Segment SUV", Features: "Level 2 ADAS, Nappa Leather, Ambient Lighting" },
-                    pros: ["4-cylinder engine runs noticeably quieter and smoother", "Extremely comfortable and refined ride", "Apple CarPlay & Android Auto supported"],
-                    cons: ["Heavy curb weight still affects fuel economy", "Suspension leans heavily towards comfort, not sporty", "Interior layout feels slightly dated compared to rivals"],
+                    year: "2025–2026 MC",
+                    image: "https://cms-assets.proton.com/proton-cms-blob/media/e3jm4grp/model-x70.png",
+                    specs: {
+                        Engine: "1.5L i-GT TD 3-Cyl Turbo (181 PS)",
+                        Torque: "290 Nm",
+                        Transmission: "7-Speed Wet DCT",
+                        Type: "C-Segment SUV",
+                        Load: "~380–450 L boot (variant)",
+                        Features: "12.3\" screen, wireless CarPlay/AA, L2 ADAS, 360° cam, power tailgate, ventilated seats (Premium)"
+                    },
+                    pros: [
+                        "Refined, comfort-oriented ride suited to long Malaysian highways",
+                        "Wireless CarPlay/AA + Proton Link 2.0 connectivity",
+                        "Generous standard safety (AEB, ACC, ICC, LCA, RCTA)",
+                        "Quieter cabin than earlier X70 generations after latest updates"
+                    ],
+                    cons: [
+                        "Heavier kerb weight hurts real-world fuel economy vs lighter B-SUVs",
+                        "Lineup trimmed — fewer variants than older X70 range",
+                        "Boot is usable but not class-leading vs 7-seat rivals",
+                        "Suspension prioritises comfort over sharp handling"
+                    ],
                     variants: [
-                        { name: "1.5T 4-Cyl Standard", price: 98800 },
-                        { name: "1.5T 4-Cyl Executive", price: 110800 },
-                        { name: "1.5T 4-Cyl Premium", price: 123800 },
-                        { name: "1.5T 4-Cyl Premium X", price: 126800 }
+                        { name: "1.5T Executive", price: 106800 },
+                        { name: "1.5T Premium", price: 119800 }
                     ]
                 },
                 "X90": {
-                    // Corrected to 1.5L Turbo 4-Cyl Hybrid
-                    specs: { Engine: "1.5L Turbo 4-Cyl BSG Hybrid (190 PS)", Torque: "300+ Nm", Transmission: "7-Speed Wet DCT", Type: "D-Segment SUV (6/7-Seater)", Features: "Mild Hybrid System, Captain Seats, Auto Park" },
-                    pros: ["4-cylinder hybrid setup delivers excellent power delivery", "Spacious true 3-row seating", "Multi-link rear suspension offers great stability"],
-                    cons: ["Mild hybrid only; pure EV driving not possible", "Large footprint makes tight parking difficult", "Interior styling is slightly conservative"],
+                    year: "2025–2026 MC",
+                    image: "https://cms-assets.proton.com/proton-cms-blob/media/xcxpvkh5/model-x90.png",
+                    specs: {
+                        Engine: "1.5L i-GT TD 3-Cyl Turbo (181 PS)",
+                        Torque: "290 Nm",
+                        Transmission: "7-Speed Wet DCT",
+                        Type: "D-Segment SUV (6/7-Seater)",
+                        Load: "257 L / 1,011 L / 2,050 L",
+                        Features: "True 3-row seating, multi-link rear, captain seats (select), wireless CarPlay/AA, 360° cam"
+                    },
+                    pros: [
+                        "True 7-seat space with multi-link rear for highway stability",
+                        "Flexible cargo: 257 L → 1,011 L → 2,050 L with rows folded",
+                        "Much more accessible pricing after MC refresh (from ~RM107k)",
+                        "Captain seats / Nappa / ventilated seats on upper trims"
+                    ],
+                    cons: [
+                        "New MC drops 48V mild-hybrid — no pure EV crawl / lower system PS vs old BSG",
+                        "3rd-row boot (257 L) is tight with all seats up",
+                        "Large footprint is hard to park in tight malls without 360 cam",
+                        "Thirstier when fully loaded with 6–7 adults"
+                    ],
                     variants: [
-                        { name: "1.5T 4-Cyl BSG Standard", price: 123800 },
-                        { name: "1.5T 4-Cyl BSG Executive", price: 130800 },
-                        { name: "1.5T 4-Cyl BSG Premium", price: 144800 },
-                        { name: "1.5T 4-Cyl BSG Flagship (6-Seater)", price: 152800 }
+                        { name: "1.5T Lite (7-Seater)", price: 106800 },
+                        { name: "1.5T Prime (7-Seater)", price: 116800 },
+                        { name: "1.5T Prime X (6-Seater)", price: 122800 }
                     ]
                 },
                 "e.MAS 7 (EV)": {
-                    specs: { Engine: "Single Motor RWD (218 PS)", Torque: "320 Nm", Transmission: "Single-Speed", Type: "C-Segment Electric SUV", Features: "Aegis Short Blade Battery, Flyme Auto, 410km WLTP" },
-                    pros: ["Zero emissions and low running costs", "Geely's advanced and safe Aegis battery tech", "Incredibly spacious interior with flat floor"],
-                    cons: ["Requires home charger for best experience", "Public charging network still growing", "Higher initial purchase price than ICE rivals"],
+                    year: "2026",
+                    image: "https://emas.proton.com/wp-content/uploads/2024/12/eMAS7_PREMIUM.png",
+                    specs: {
+                        Engine: "Single Motor RWD (~160 kW / 218 PS)",
+                        Torque: "320 Nm",
+                        Transmission: "Single-Speed",
+                        Type: "C-Segment Electric SUV",
+                        Load: "~500 L boot + frunk (variant)",
+                        Features: "Aegis Short Blade LFP, Flyme OS, L2 ADAS; 345–450 km WLTP by pack"
+                    },
+                    pros: [
+                        "Low running costs and smooth, quiet RWD EV drive",
+                        "Aegis short-blade battery safety reputation + solid WLTP range options",
+                        "Spacious cabin with flat floor; strong feature density for the price",
+                        "Premium Plus adds longer 68.39 kWh pack (450 km WLTP) and massage seats"
+                    ],
+                    cons: [
+                        "Home AC charging strongly preferred; DC public network still uneven outside cities",
+                        "Highway range drops vs WLTP in air-con heat / high speed",
+                        "Resale and battery longevity still evolving for local EV market",
+                        "Heavier than ICE rivals — tyre wear can be higher"
+                    ],
                     variants: [
-                        { name: "e.MAS 7 Prime (49.52 kWh)", price: 120000 },
-                        { name: "e.MAS 7 Premium (60.22 kWh)", price: 135000 }
+                        { name: "Prime 49.52 kWh (345 km WLTP)", price: 96800 },
+                        { name: "Premium 60.22 kWh (410 km WLTP)", price: 112800 },
+                        { name: "Premium Plus 68.39 kWh (450 km WLTP)", price: 118800 }
                     ]
                 }
             },
             "Perodua": {
                 "Axia": {
-                    specs: { Engine: "1.0L VVT-i (67 hp)", Torque: "91 Nm", Transmission: "5MT / D-CVT", Type: "A-Segment Hatchback", Features: "Digital Meter, Keyless Entry, Perodua Smart Drive Assist" },
-                    pros: ["Incredible fuel efficiency (up to 27km/l)", "D-CVT gearbox is smooth and responsive", "Spacious cabin for its compact footprint"],
-                    cons: ["1.0L engine struggles on steep highway inclines", "NVH (Noise, Vibration, Harshness) is noticeable", "No telescopic steering adjustment"],
+                    year: "2023–2026 D74A",
+                    image: "https://www.perodua.com.my/assets/images/landing-page/cars/with-emblem/axia.webp",
+                    specs: {
+                        Engine: "1.0L 3-Cyl VVT-i (67 hp)",
+                        Torque: "91 Nm",
+                        Transmission: "5MT / D-CVT",
+                        Type: "A-Segment Hatchback",
+                        Load: "~260 L boot",
+                        Features: "DNGA-A, digital meter, keyless (higher), ASA / PSDA on AV"
+                    },
+                    pros: [
+                        "Cheapest new car path via E Manual Rahmah (~RM22k)",
+                        "Excellent city fuel economy (claimed up to ~27 km/L class)",
+                        "D-CVT is smooth; cabin surprisingly roomy for its size",
+                        "Low maintenance and strong Perodua residual values"
+                    ],
+                    cons: [
+                        "67 hp struggles on steep PLUS inclines with full load",
+                        "NVH (engine/road noise) is obvious at highway speeds",
+                        "No telescopic steering; basic kit on lower trims",
+                        "Small boot limits weekly grocery / stroller use"
+                    ],
                     variants: [
                         { name: "1.0 E Manual (Rahmah)", price: 22000 },
                         { name: "1.0 G D-CVT", price: 38600 },
@@ -402,9 +535,28 @@
                     ]
                 },
                 "Bezza": {
-                    specs: { Engine: "1.0L / 1.3L VVT-i (67-94 hp)", Torque: "91-121 Nm", Transmission: "4AT / 5MT", Type: "A-Segment Sedan", Features: "508L Boot Space, ASA 2.0 (AV), Push Start" },
-                    pros: ["Massive 508-liter boot space", "Extremely reliable and low maintenance cost", "Great fuel economy for daily city driving"],
-                    cons: ["Ride quality can be bouncy", "Driving position is awkward for tall drivers", "Older 4AT gearbox feels sluggish compared to D-CVT"],
+                    year: "2020–2026 D42L",
+                    image: "https://www.perodua.com.my/assets/images/landing-page/cars/with-emblem/bezza.webp",
+                    specs: {
+                        Engine: "1.0L / 1.3L VVT-i (67–94 hp)",
+                        Torque: "91–121 Nm",
+                        Transmission: "5MT / 4AT",
+                        Type: "A-Segment Sedan",
+                        Load: "508 L boot",
+                        Features: "Class-leading boot, ASA 2.0 (AV), push start (higher), LED lamps (AV)"
+                    },
+                    pros: [
+                        "Huge 508 L boot — best-in-class for Grab and family luggage",
+                        "Proven reliability and among the lowest running costs in MY",
+                        "Strong resale; still a top national sales chart regular",
+                        "AV adds ASA 2.0 active safety at approachable price"
+                    ],
+                    cons: [
+                        "Ageing cabin and bouncy ride on rough roads",
+                        "4AT feels sluggish vs modern D-CVT rivals (incl. new Saga)",
+                        "Driving position awkward for tall drivers",
+                        "1.0 variants underpowered when fully loaded"
+                    ],
                     variants: [
                         { name: "1.0 G Manual", price: 34580 },
                         { name: "1.0 G Auto", price: 36580 },
@@ -413,9 +565,28 @@
                     ]
                 },
                 "Myvi": {
-                    specs: { Engine: "1.3L / 1.5L Dual VVT-i (102 hp)", Torque: "136 Nm", Transmission: "D-CVT", Type: "B-Segment Hatchback", Features: "PSDA, Adaptive Cruise Control, Auto High Beam" },
-                    pros: ["Malaysia's best-selling car; highly dependable", "Fantastic safety tech (PSDA & ACC) for the price", "Punchy 1.5L engine paired with D-CVT"],
-                    cons: ["Suspension is firm, impacting rear comfort", "Road and wind noise at highway speeds", "Seats could use better thigh support"],
+                    year: "2021–2026 D74A/B",
+                    image: "https://www.perodua.com.my/assets/images/landing-page/cars/with-emblem/myvi.webp",
+                    specs: {
+                        Engine: "1.3L / 1.5L Dual VVT-i (95–105 hp)",
+                        Torque: "121–138 Nm",
+                        Transmission: "D-CVT",
+                        Type: "B-Segment Hatchback",
+                        Load: "~285 L boot (seats up)",
+                        Features: "PSDA, ACC + stop&go (AV), auto high beam, digital cluster (higher)"
+                    },
+                    pros: [
+                        "Malaysia’s default family hatch — dependable DNGA platform",
+                        "1.5 + D-CVT is punchy enough for highway with light load",
+                        "AV’s PSDA + adaptive cruise is outstanding for the money",
+                        "Easy to service nationwide; strong used-market demand"
+                    ],
+                    cons: [
+                        "Firm suspension transmits rear-seat harshness on bad roads",
+                        "Highway wind/road noise is noticeable",
+                        "Thigh support and rear space average for tall adults",
+                        "Boot small once you pack prams or weekend bags"
+                    ],
                     variants: [
                         { name: "1.3 G D-CVT (w/o PSDA)", price: 46500 },
                         { name: "1.3 G D-CVT (w/ PSDA)", price: 48500 },
@@ -425,33 +596,117 @@
                     ]
                 },
                 "Ativa": {
-                    specs: { Engine: "1.0L Turbo (97 hp)", Torque: "140 Nm", Transmission: "D-CVT", Type: "Compact SUV", Features: "Adaptive Matrix LED, PSDA Advanced, Digital Cluster" },
-                    pros: ["Punchy turbo engine provides good low-end torque", "High seating position and good visibility", "Excellent safety features (Adaptive Matrix Headlights)"],
-                    cons: ["Boot space is limited (303L)", "3-cylinder engine vibrates noticeably at idle", "Rear seat space is a bit cramped for adults"],
+                    year: "2021–2026 D55L",
+                    image: "https://www.perodua.com.my/assets/images/landing-page/cars/with-emblem/ativa.webp",
+                    specs: {
+                        Engine: "1.0L 3-Cyl Turbo (97–98 hp)",
+                        Torque: "140 Nm",
+                        Transmission: "D-CVT",
+                        Type: "B-Segment Compact SUV",
+                        Load: "303 L boot",
+                        Features: "Adaptive Matrix LED (AV), advanced ASA/PSDA, digital cluster, high seating"
+                    },
+                    pros: [
+                        "Turbo low-end torque feels livelier than NA 1.5 rivals in city traffic",
+                        "High seating + good visibility for new SUV buyers",
+                        "AV Matrix LED + ASA suite is segment-leading safety kit",
+                        "Compact footprint easy to park vs larger crossovers"
+                    ],
+                    cons: [
+                        "303 L boot is small for family trips",
+                        "3-cyl idle vibration and drone under load",
+                        "Rear seat cramped for three adults",
+                        "Pricing now overlaps Traz which offers more space"
+                    ],
                     variants: [
                         { name: "1.0 X D-CVT", price: 62500 },
-                        { name: "1.0 H D-CVT", price: 67080 },
-                        { name: "1.0 AV D-CVT", price: 72380 }
+                        { name: "1.0 H D-CVT", price: 67300 },
+                        { name: "1.0 AV D-CVT", price: 72600 }
                     ]
                 },
                 "Alza": {
-                    specs: { Engine: "1.5L Dual VVT-i (105 hp)", Torque: "138 Nm", Transmission: "D-CVT", Type: "B-Segment MPV (7-Seater)", Features: "EPB with Auto Hold, 360 Camera, Rear AC" },
-                    pros: ["Incredible value for a 7-seater MPV", "Very car-like driving dynamics (DNGA platform)", "EPB, 360-cam, and rear AC make it highly practical"],
-                    cons: ["Low ground clearance (160mm) for an MPV", "Third row is strict for kids or short journeys", "Engine feels strained with 7 adults and luggage"],
+                    year: "2022–2026 D27A",
+                    image: "https://www.perodua.com.my/assets/images/landing-page/cars/with-emblem/alza.webp",
+                    specs: {
+                        Engine: "1.5L Dual VVT-i (105 hp)",
+                        Torque: "138 Nm",
+                        Transmission: "D-CVT",
+                        Type: "B-Segment MPV (7-Seater)",
+                        Load: "~137 L (3 rows) / expands with 3rd folded",
+                        Features: "DNGA, EPB + Auto Hold, 360 cam (AV), rear A/C, ASA"
+                    },
+                    pros: [
+                        "Best value 7-seater for Malaysian families",
+                        "Car-like DNGA dynamics — easier to drive than old Alza / Aruz",
+                        "EPB, rear A/C, and 360 cam (AV) boost daily practicality",
+                        "Efficient 1.5 D-CVT when not fully loaded"
+                    ],
+                    cons: [
+                        "Low ~160 mm ground clearance for rough kampung roads",
+                        "3rd row only for kids or short hops",
+                        "1.5 feels strained with 7 adults + luggage",
+                        "Cargo tiny with all seats up (~137 L class)"
+                    ],
                     variants: [
                         { name: "1.5 X D-CVT", price: 62500 },
                         { name: "1.5 H D-CVT", price: 68000 },
                         { name: "1.5 AV D-CVT", price: 75500 }
                     ]
                 },
-                "Nexis (D66B)": {
-                    specs: { Engine: "1.5L Dual VVT-i / 1.5L Hybrid", Torque: "138 Nm / 170 Nm", Transmission: "D-CVT", Type: "B-Segment SUV", Features: "DNGA Platform, Power Tailgate, Advanced PSDA" },
-                    pros: ["Direct competitor to HR-V/Corolla Cross at lower price", "Available highly efficient Hybrid powertrain", "Modern styling and premium feature set"],
-                    cons: ["Expect extremely long waiting lists", "Hybrid variant commands a significant price premium", "Cabin materials still lean towards hard plastics"],
+                "Traz": {
+                    year: "2026 D66B",
+                    image: "https://www.perodua.com.my/assets/car/traz/traz_exploremore_landing_2x.webp",
+                    specs: {
+                        Engine: "1.5L Dual VVT-i 4-Cyl (106 PS)",
+                        Torque: "138 Nm",
+                        Transmission: "D-CVT",
+                        Type: "B-Segment SUV (Yaris Cross twin)",
+                        Load: "~390 L boot (class)",
+                        Features: "ASA 3.0 suite, 9\" head unit + wired CarPlay/AA, 360 cam + power tailgate (H), 5★ ASEAN NCAP"
+                    },
+                    pros: [
+                        "More space/refinement than Myvi/Ativa — solid upgrade path",
+                        "5-star ASEAN NCAP with modern ASA (AEB, LDP, BSM, RCTA)",
+                        "H adds 360 cam, dashcam, and powered tailgate",
+                        "Familiar 1.5 + D-CVT = easy, cheap Perodua servicing"
+                    ],
+                    cons: [
+                        "No hybrid and no ACC/cruise — feels incomplete vs X50/HR-V rivals",
+                        "NA 1.5 lacks Ativa turbo punch / X50 181 PS performance",
+                        "Pricing optimistic for kit level (Paul Tan 3.5/5)",
+                        "Waiting lists / stock can be tight at launch period"
+                    ],
                     variants: [
-                        { name: "1.5 X D-CVT", price: 73000 },
-                        { name: "1.5 H D-CVT", price: 78000 },
-                        { name: "1.5 AV D-CVT (Hybrid)", price: 85000 }
+                        { name: "1.5 X D-CVT", price: 76100 },
+                        { name: "1.5 H D-CVT", price: 81100 }
+                    ]
+                },
+                "Aruz": {
+                    year: "2021–2026 D38L",
+                    image: "https://www.perodua.com.my/assets/images/landing-page/cars/with-emblem/aruz.webp",
+                    specs: {
+                        Engine: "1.5L Dual VVT-i (102 hp)",
+                        Torque: "133 Nm",
+                        Transmission: "4-Speed AT",
+                        Type: "B-Segment SUV (7-Seater)",
+                        Load: "~213 L (3 rows) / larger with 3rd folded",
+                        Features: "Body-on-frame-like height, ASA (AV), 7 seats, higher ground clearance vs Alza"
+                    },
+                    pros: [
+                        "Higher ground clearance and SUV stance vs Alza",
+                        "Genuine 7-seat layout for larger families on a budget",
+                        "Simple, proven powertrain and low ownership cost",
+                        "AV adds ASA active safety"
+                    ],
+                    cons: [
+                        "Ageing 4AT and chassis feel dated vs DNGA Alza/Traz",
+                        "102 hp is slow when fully loaded",
+                        "Ride can be floaty; handling less car-like than Alza",
+                        "Interior plastics and tech trail newer Perodua models"
+                    ],
+                    variants: [
+                        { name: "1.5 X Auto", price: 72900 },
+                        { name: "1.5 AV Auto", price: 77900 }
                     ]
                 }
             }
@@ -566,16 +821,27 @@
             
             // Populate Specs
             const car = carData[calcState.brand][calcState.model];
-            document.getElementById('specBrandModel').innerText = `${calcState.brand} ${calcState.model}`;
+            const yearLabel = car.year ? ` (${car.year})` : '';
+            document.getElementById('specBrandModel').innerText = `${calcState.brand} ${calcState.model}${yearLabel}`;
             document.getElementById('specEngine').innerText = car.specs.Engine;
             document.getElementById('specTorque').innerText = car.specs.Torque;
             document.getElementById('specTrans').innerText = car.specs.Transmission;
+            document.getElementById('specLoad').innerText = car.specs.Load || '—';
+
+            const img = document.getElementById('specImage');
+            if (car.image) {
+                img.style.display = 'block';
+                img.src = car.image;
+                img.alt = `${calcState.brand} ${calcState.model}`;
+            } else {
+                img.style.display = 'none';
+            }
             
             // Populate Pros/Cons
             const prosList = document.getElementById('specPros');
             const consList = document.getElementById('specCons');
-            prosList.innerHTML = car.pros.map(p => `<li>• ${p}</li>`).join('');
-            consList.innerHTML = car.cons.map(c => `<li>• ${c}</li>`).join('');
+            prosList.innerHTML = car.pros.map(p => `<li class="flex gap-2"><span class="text-green-500 shrink-0">•</span><span>${p}</span></li>`).join('');
+            consList.innerHTML = car.cons.map(c => `<li class="flex gap-2"><span class="text-red-500 shrink-0">•</span><span>${c}</span></li>`).join('');
 
             document.getElementById('specsEmptyState').classList.add('hidden');
             document.getElementById('specsContainer').classList.remove('hidden');
@@ -650,34 +916,48 @@
             let prosHtml = car.pros.map(p => `<li class="flex gap-2 items-start"><i data-lucide="check" class="w-4 h-4 text-green-500 shrink-0 mt-0.5"></i> <span>${p}</span></li>`).join('');
             let consHtml = car.cons.map(c => `<li class="flex gap-2 items-start"><i data-lucide="x" class="w-4 h-4 text-red-500 shrink-0 mt-0.5"></i> <span>${c}</span></li>`).join('');
 
+            const yearLabel = car.year ? car.year : '';
+            const imgHtml = car.image
+                ? `<div class="bg-slate-100 flex items-center justify-center px-4 py-5 border-b border-slate-200">
+                        <img src="${car.image}" alt="${brand} ${model}" class="max-h-36 w-full object-contain" loading="lazy"
+                             onerror="this.parentElement.innerHTML='<span class=\\'text-slate-400 text-sm\\'>Image unavailable</span>'">
+                   </div>`
+                : '';
+
             return `
                 <div class="bg-primary text-white p-6 text-center">
                     <span class="text-accent text-xs font-bold uppercase tracking-wider">${brand}</span>
                     <h3 class="text-2xl font-bold mt-1">${model}</h3>
+                    <p class="text-slate-400 text-xs mt-0.5">${yearLabel}</p>
                     <p class="text-slate-400 text-sm mt-1 truncate">${variant.name}</p>
                     <div class="text-3xl font-extrabold mt-4">${MYR.format(variant.price)}</div>
                     <p class="text-sm text-slate-400 mt-1">~${MYR.format(monthly)} / mo (9 Yrs, 10% DP)</p>
                 </div>
+                ${imgHtml}
                 <div class="p-6 space-y-4">
-                    <div class="flex justify-between border-b pb-2 border-slate-100">
-                        <span class="text-slate-500 text-sm">Engine</span>
-                        <span class="font-semibold text-sm text-right w-1/2">${car.specs.Engine}</span>
+                    <div class="flex justify-between border-b pb-2 border-slate-100 gap-3">
+                        <span class="text-slate-500 text-sm shrink-0">Engine</span>
+                        <span class="font-semibold text-sm text-right">${car.specs.Engine}</span>
                     </div>
-                    <div class="flex justify-between border-b pb-2 border-slate-100">
-                        <span class="text-slate-500 text-sm">Torque</span>
-                        <span class="font-semibold text-sm">${car.specs.Torque}</span>
+                    <div class="flex justify-between border-b pb-2 border-slate-100 gap-3">
+                        <span class="text-slate-500 text-sm shrink-0">Torque</span>
+                        <span class="font-semibold text-sm text-right">${car.specs.Torque}</span>
                     </div>
-                    <div class="flex justify-between border-b pb-2 border-slate-100">
-                        <span class="text-slate-500 text-sm">Trans</span>
-                        <span class="font-semibold text-sm">${car.specs.Transmission}</span>
+                    <div class="flex justify-between border-b pb-2 border-slate-100 gap-3">
+                        <span class="text-slate-500 text-sm shrink-0">Trans</span>
+                        <span class="font-semibold text-sm text-right">${car.specs.Transmission}</span>
                     </div>
-                    <div class="flex justify-between border-b pb-2 border-slate-100">
-                        <span class="text-slate-500 text-sm">Type</span>
-                        <span class="font-semibold text-sm text-right w-1/2">${car.specs.Type}</span>
+                    <div class="flex justify-between border-b pb-2 border-slate-100 gap-3">
+                        <span class="text-slate-500 text-sm shrink-0">Boot / Load</span>
+                        <span class="font-semibold text-sm text-right">${car.specs.Load || '—'}</span>
                     </div>
-                    <div class="flex justify-between border-b pb-2 border-slate-100">
-                        <span class="text-slate-500 text-sm">Features</span>
-                        <span class="font-semibold text-sm text-right w-1/2">${car.specs.Features}</span>
+                    <div class="flex justify-between border-b pb-2 border-slate-100 gap-3">
+                        <span class="text-slate-500 text-sm shrink-0">Type</span>
+                        <span class="font-semibold text-sm text-right">${car.specs.Type}</span>
+                    </div>
+                    <div class="flex justify-between border-b pb-2 border-slate-100 gap-3">
+                        <span class="text-slate-500 text-sm shrink-0">Features</span>
+                        <span class="font-semibold text-sm text-right max-w-[60%]">${car.specs.Features}</span>
                     </div>
                     
                     <div class="pt-4">
@@ -723,3 +1003,4 @@
 
 
 ```
+
